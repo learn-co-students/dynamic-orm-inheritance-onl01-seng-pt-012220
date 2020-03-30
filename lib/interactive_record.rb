@@ -35,7 +35,11 @@ class InteractiveRecord
   def table_name_for_insert
     self.class.table_name
   end
-
+  
+  def col_names_for_insert
+    self.class.column_names.delete_if {|col| col == "id"}.join(", ")
+  end
+  
   def values_for_insert
     values = []
     self.class.column_names.each do |col_name|
@@ -44,9 +48,7 @@ class InteractiveRecord
     values.join(", ")
   end
 
-  def col_names_for_insert
-    self.class.column_names.delete_if {|col| col == "id"}.join(", ")
-  end
+  
 
 def self.find_by_name(name)
   sql = "SELECT * FROM #{self.table_name} WHERE name = ?"
